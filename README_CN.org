@@ -75,10 +75,6 @@ M-x org-embd-video
 - TED: =https://ted.com/talks/TALK_ID=
 - 本地文件: =/path/to/video.mp4=
 
-#+CAPTION: 视频嵌入示例
-#+NAME: fig:video-example
-[[file:images/video-example.svg]]
-
 ** 嵌入网页
 
 #+begin_src
@@ -86,10 +82,6 @@ M-x org-embd-webpage
 #+end_src
 
 然后输入网页 URL。
-
-#+CAPTION: 网页嵌入示例
-#+NAME: fig:webpage-example
-[[file:images/webpage-example.svg]]
 
 ** 嵌入 PDF
 

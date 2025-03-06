@@ -75,10 +75,6 @@ Then enter the video URL or file path, for example:
 - TED: =https://ted.com/talks/TALK_ID=
 - Local file: =/path/to/video.mp4=
 
-#+CAPTION: Video embedding example
-#+NAME: fig:video-example
-[[file:images/video-example.svg]]
-
 ** Embedding Webpages
 
 #+begin_src
@@ -87,9 +83,6 @@ M-x org-embd-webpage
 
 Then enter the webpage URL.
 
-#+CAPTION: Webpage embedding example
-#+NAME: fig:webpage-example
-[[file:images/webpage-example.svg]]
 
 ** Embedding PDFs
 
