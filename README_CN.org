@@ -1,0 +1,161 @@
+#+TITLE: org-embd
+#+AUTHOR: Yibie
+#+DATE: 2025-3-6
+
+一个用于在 Org-mode 中嵌入各种内容的 Emacs 包。
+
+[[file:figure1.png]]
+
+* 功能
+
+- 支持在 Org-mode 中嵌入各种视频平台的视频
+- 支持在 Org-mode 中嵌入任意网页
+- 支持在 Org-mode 中嵌入 PDF 文件
+- 模块化设计，易于扩展支持更多内容类型
+
+* 支持的视频平台
+
+- YouTube
+- Bilibili
+- Vimeo
+- Dailymotion
+- TED Talks
+- 本地视频文件
+
+* 支持的其他内容
+
+- 任意网页
+- PDF 文件（本地）
+
+* 安装
+
+将此包放入您的 Emacs 加载路径中，然后在您的配置文件中添加：
+
+#+begin_src elisp
+(require 'org-embd)
+#+end_src
+
+* 使用方法
+
+点击链接或使用 =C-c C-o= 可以打开嵌入内容。
+
+** 链接格式
+
+您可以直接在 Org 文件中输入以下格式的链接：
+
+#+begin_example
+[[org-embd:类型:URL或路径]]
+#+end_example
+
+其中：
+- =类型= 可以是 =video=、=webpage= 或 =pdf=
+- =URL或路径= 是要嵌入内容的地址或文件路径
+
+例如：
+#+begin_example
+[[org-embd:video:https://youtube.com/watch?v=VIDEO_ID]]
+[[org-embd:webpage:https://example.com]]
+[[org-embd:pdf:/path/to/document.pdf]]
+#+end_example
+
+** 嵌入视频
+
+除了直接输入链接外，您也可以使用交互式命令：
+
+#+begin_src
+M-x org-embd-video
+#+end_src
+
+然后输入视频 URL 或文件路径，例如：
+
+- YouTube: =https://youtube.com/watch?v=VIDEO_ID= 或 =https://youtu.be/VIDEO_ID=
+- Bilibili: =https://bilibili.com/video/BVID=
+- Vimeo: =https://vimeo.com/VIDEO_ID=
+- Dailymotion: =https://dailymotion.com/video/VIDEO_ID=
+- TED: =https://ted.com/talks/TALK_ID=
+- 本地文件: =/path/to/video.mp4=
+
+#+CAPTION: 视频嵌入示例
+#+NAME: fig:video-example
+[[file:images/video-example.svg]]
+
+** 嵌入网页
+
+#+begin_src
+M-x org-embd-webpage
+#+end_src
+
+然后输入网页 URL。
+
+#+CAPTION: 网页嵌入示例
+#+NAME: fig:webpage-example
+[[file:images/webpage-example.svg]]
+
+** 嵌入 PDF
+
+#+begin_src
+M-x org-embd-pdf
+#+end_src
+
+然后输入 PDF 文件的本地路径。
+
+* 自定义
+
+您可以通过以下变量自定义内容的默认尺寸：
+
+#+begin_src elisp
+(setq org-embd-video-width 800)     ; 默认为 640
+(setq org-embd-video-height 450)    ; 默认为 360
+(setq org-embd-webpage-width 1024)  ; 默认为 800
+(setq org-embd-webpage-height 768)  ; 默认为 600
+(setq org-embd-pdf-width 800)       ; 默认为 800
+(setq org-embd-pdf-height 1200)     ; 默认为 1000
+#+end_src
+
+* 扩展
+
+您可以通过添加新的规则来支持更多的内容类型：
+
+#+begin_src elisp
+(org-embd-register-rule 'my-platform
+                        #'my-platform-matcher
+                        #'my-platform-handler)
+#+end_src
+
+其中：
+- =my-platform-matcher= 是一个函数，接受 URL 并返回非 nil 表示可以处理该 URL
+- =my-platform-handler= 是一个函数，接受 URL、宽度和高度，返回嵌入的 HTML 内容
+
+* 文件结构
+
+- =org-embd.el= - 主入口文件
+- =org-embd-core.el= - 核心功能模块
+- =org-embd-rules.el= - 内容处理规则集
+
+* 依赖
+
+- Emacs 25.1 或更高版本
+- 带有 xwidget-webkit 支持的 Emacs 编译版本
+
+* 清理嵌入内容
+
+您可以使用以下命令清理嵌入的内容：
+
+#+begin_src
+M-x org-embd-clean-xwidget-at-point  ; 清理光标处的嵌入内容
+M-x org-embd-clean-all               ; 清理当前缓冲区中的所有嵌入内容
+#+end_src
+
+* 许可证
+
+版权所有 © 2025 Yibie
+
+本程序是自由软件；您可以根据自由软件基金会发布的GNU通用公共许可证
+条款重新分发和/或修改它；许可证可以是第3版，或者（由您选择）任何
+更高版本。
+
+本程序的发布是希望它能有所作用，但没有任何担保；甚至没有对适销性
+或特定用途适用性的暗示担保。详情请参阅GNU通用公共许可证。
+
+您应该已经收到了GNU通用公共许可证的副本；如果没有，请参阅
+<https://www.gnu.org/licenses/>。

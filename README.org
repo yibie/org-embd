@@ -1,0 +1,164 @@
+#+TITLE: org-embd
+#+AUTHOR: Yibie
+#+DATE: 2025-3-6
+
+An Emacs package for embedding various content in Org-mode.
+
+[[file:figure1.png]]
+
+* Features
+
+- Support for embedding videos from various platforms in Org-mode
+- Support for embedding any webpage in Org-mode
+- Support for embedding PDF files in Org-mode
+- Modular design, easily extensible to support more content types
+
+* Supported Video Platforms
+
+- YouTube
+- Bilibili
+- Vimeo
+- Dailymotion
+- TED Talks
+- Local video files
+
+* Other Supported Content
+
+- Any webpage
+- PDF files (local)
+
+* Installation
+
+Place this package in your Emacs load path, then add the following to your configuration file:
+
+#+begin_src elisp
+(require 'org-embd)
+#+end_src
+
+* Usage
+
+Click on the link or use =C-c C-o= to open embedded content.
+
+** Link Format
+
+You can directly enter links in the following format in your Org file:
+
+#+begin_example
+[[org-embd:type:URL-or-path]]
+#+end_example
+
+Where:
+- =type= can be =video=, =webpage=, or =pdf=
+- =URL-or-path= is the address or file path of the content to embed
+
+For example:
+#+begin_example
+[[org-embd:video:https://youtube.com/watch?v=VIDEO_ID]]
+[[org-embd:webpage:https://example.com]]
+[[org-embd:pdf:/path/to/document.pdf]]
+#+end_example
+
+** Embedding Videos
+
+In addition to directly entering links, you can also use the interactive command:
+
+#+begin_src
+M-x org-embd-video
+#+end_src
+
+Then enter the video URL or file path, for example:
+
+- YouTube: =https://youtube.com/watch?v=VIDEO_ID= or =https://youtu.be/VIDEO_ID=
+- Bilibili: =https://bilibili.com/video/BVID=
+- Vimeo: =https://vimeo.com/VIDEO_ID=
+- Dailymotion: =https://dailymotion.com/video/VIDEO_ID=
+- TED: =https://ted.com/talks/TALK_ID=
+- Local file: =/path/to/video.mp4=
+
+#+CAPTION: Video embedding example
+#+NAME: fig:video-example
+[[file:images/video-example.svg]]
+
+** Embedding Webpages
+
+#+begin_src
+M-x org-embd-webpage
+#+end_src
+
+Then enter the webpage URL.
+
+#+CAPTION: Webpage embedding example
+#+NAME: fig:webpage-example
+[[file:images/webpage-example.svg]]
+
+** Embedding PDFs
+
+#+begin_src
+M-x org-embd-pdf
+#+end_src
+
+Then enter the local path of the PDF file.
+
+* Customization
+
+You can customize the default dimensions of the content through the following variables:
+
+#+begin_src elisp
+(setq org-embd-video-width 800)     ; Default is 640
+(setq org-embd-video-height 450)    ; Default is 360
+(setq org-embd-webpage-width 1024)  ; Default is 800
+(setq org-embd-webpage-height 768)  ; Default is 600
+(setq org-embd-pdf-width 800)       ; Default is 800
+(setq org-embd-pdf-height 1200)     ; Default is 1000
+#+end_src
+
+* Extension
+
+You can add support for more content types by adding new rules:
+
+#+begin_src elisp
+(org-embd-register-rule 'my-platform
+                        #'my-platform-matcher
+                        #'my-platform-handler)
+#+end_src
+
+Where:
+- =my-platform-matcher= is a function that takes a URL and returns non-nil if it can handle the URL
+- =my-platform-handler= is a function that takes a URL, width, and height, and returns the embedded HTML content
+
+* File Structure
+
+- =org-embd.el= - Main entry file
+- =org-embd-core.el= - Core functionality module
+- =org-embd-rules.el= - Content processing rule set
+
+* Dependencies
+
+- Emacs 25.1 or higher
+- Emacs compiled with xwidget-webkit support
+
+* Cleaning Embedded Content
+
+You can use the following commands to clean up embedded content:
+
+#+begin_src
+M-x org-embd-clean-xwidget-at-point  ; Clean up embedded content at cursor
+M-x org-embd-clean-all               ; Clean up all embedded content in the current buffer
+#+end_src
+
+* License
+
+Copyright © 2025 Yibie
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
