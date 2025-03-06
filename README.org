@@ -119,6 +119,11 @@ Where:
 - =my-platform-matcher= is a function that takes a URL and returns non-nil if it can handle the URL
 - =my-platform-handler= is a function that takes a URL, width, and height, and returns the embedded HTML content
 
+* ⚠️KNOWN ISSUES
+
+- incompatibility with org-modern-mode
+When using org-embd, please note that it may not display properly if org-modern-mode is enabled. If you encounter display issues, try disabling org-modern-mode.
+
 * File Structure
 
 - =org-embd.el= - Main entry file
