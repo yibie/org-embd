@@ -279,11 +279,19 @@ WIDTH and HEIGHT specify dimensions."
   "Clean up all xwidgets in the current buffer."
   (interactive)
   (let ((count 0))
-    (dolist (xw (xwidget-list))
-      (when (eq (current-buffer) (xwidget-buffer xw))
+    (dolist (xw (get-buffer-xwidgets (current-buffer)))
+      (when-let* ((xwidget-view (xwidget-view-lookup xw)))
         (setq count (1+ count))
-        (delete-xwidget-view (get-buffer-window (xwidget-buffer xw)))
-        (kill-xwidget xw)))
+        (kill-xwidget xw)
+        (delete-xwidget-view xwidget-view)
+        (redraw-display)))
+    (save-excursion
+      (goto-char (point-min))
+      (while-let ((xwidget-ghost (next-single-property-change (point) 'display)))
+        (goto-char xwidget-ghost)
+        (let ((xwidget-ghost (get-text-property xwidget-ghost 'display)))
+          (when (memq 'xwidget xwidget-ghost)
+            (delete-char 1)))))
     (message "Cleaned up %d xwidgets" count)))
 
 ;; Function to clean up a specific xwidget at point
@@ -292,24 +300,26 @@ WIDTH and HEIGHT specify dimensions."
   (interactive)
   (let ((found nil))
     (save-excursion
-      (let ((xw (xwidget-at (point))))
-        (if xw
-            (progn
-              (delete-xwidget-view (get-buffer-window (xwidget-buffer xw)))
+      (if-let* ((xw (xwidget-at (point)))
+                (xwidget-view (xwidget-view-lookup xw)))
+          (progn
+            (kill-xwidget xw)
+            (delete-xwidget-view (xwidget-view-lookup xw))
+            (delete-char 1)
+            (setq found t))
+        ;; If not found at point, search forward for the next xwidget
+        (let ((next-pos (next-single-property-change (point) 'display)))
+          (when next-pos
+            (goto-char next-pos)
+            (when-let* ((xw (xwidget-at (point)))
+                        (xwidget-view (xwidget-view-lookup xw)))
               (kill-xwidget xw)
-              (setq found t))
-          ;; If not found at point, search forward for the next xwidget
-          (let ((next-pos (next-single-property-change (point) 'xwidget)))
-            (when next-pos
-              (goto-char next-pos)
-              (let ((xw (xwidget-at (point))))
-                (when xw
-                  (delete-xwidget-view (get-buffer-window (xwidget-buffer xw)))
-                  (kill-xwidget xw)
-                  (setq found t)))))))
+              (delete-xwidget-view xwidget-view)
+              (delete-char 1)
+              (setq found t))))))
     (if found
         (message "Cleaned up xwidget at point")
-      (message "No xwidget found at or after point")))))
+      (message "No xwidget found at or after point"))))
 
 ;; Function to follow embd links
 (defun org-embd-follow-link (path)
