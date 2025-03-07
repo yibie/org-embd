@@ -134,6 +134,17 @@ Where:
 - incompatibility with org-modern-mode
 When using org-embed, please note that it may not display properly if org-modern-mode is enabled. If you encounter display issues, try disabling org-modern-mode.
 
+* Cleaning Embedded Content
+
+You can use the following commands to clean up embedded content:
+
+#+begin_src
+M-x org-embed-clean-at-point  ; Clean up embedded content at cursor
+M-x org-embed-clean-all               ; Clean up all embedded content in the current buffer
+#+end_src
+
+**Note**: When using `org-embed-clean-at-point`, make sure your cursor is positioned before or at the xwidget you want to clean. If the cursor is not at a xwidget, the function will search forward for the next xwidget.
+
 * File Structure
 
 - =org-embed.el= - Main entry file
@@ -144,17 +155,9 @@ When using org-embed, please note that it may not display properly if org-modern
 
 - Emacs 25.1 or higher
 - Emacs compiled with xwidget-webkit support
+* Acknowledgment
 
-* Cleaning Embedded Content
-
-You can use the following commands to clean up embedded content:
-
-#+begin_src
-M-x org-embed-clean-xwidget-at-point  ; Clean up embedded content at cursor
-M-x org-embed-clean-all               ; Clean up all embedded content in the current buffer
-#+end_src
-
-**Note**: When using `org-embed-clean-xwidget-at-point`, make sure your cursor is positioned before or at the xwidget you want to clean. If the cursor is not at a xwidget, the function will search forward for the next xwidget.
+Thank to [[https://github.com/RadioNoiseE][RadioNoiseE]] for the inspiring ideas he provided and his contributions to this project.
 
 * License
 
