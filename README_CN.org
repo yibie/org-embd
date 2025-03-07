@@ -134,7 +134,7 @@ M-x org-embed-pdf
 您可以使用以下命令清理嵌入的内容：
 
 #+begin_src
-M-x org-embed-clean-xwidget-at-point  ; 清理光标处的嵌入内容
+M-x org-embed-clean-at-point  ; 清理光标处的嵌入内容
 M-x org-embed-clean-all               ; 清理当前缓冲区中的所有嵌入内容
 #+end_src
 
